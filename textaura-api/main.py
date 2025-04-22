@@ -1,0 +1,35 @@
+from fastapi import FastAPI
+from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
+from youtube_transcript_api import YouTubeTranscriptApi
+from routers import text_router
+
+
+app = FastAPI()
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(
+    text_router.router,
+    prefix="/api/text",
+    tags=["text_router"],
+    responses={404: {"description": "Not found"}},
+)
+
+@app.get("/")
+async def get_email():
+    ytt_api = YouTubeTranscriptApi()
+    result = ytt_api.fetch("AxQ7dMbEgmw")
+
+    for snippet in result:
+        text = snippet.text
+        print(text)
+
+    return JSONResponse
