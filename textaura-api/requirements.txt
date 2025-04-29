@@ -2,3 +2,4 @@ fastapi
 python-dotenv
 uvicorn
 youtube-transcript-api
+google-genai

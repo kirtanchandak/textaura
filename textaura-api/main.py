@@ -1,9 +1,6 @@
 from fastapi import FastAPI
-from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from youtube_transcript_api import YouTubeTranscriptApi
 from routers import text_router
-
 
 app = FastAPI()
 
@@ -24,12 +21,5 @@ app.include_router(
 )
 
 @app.get("/")
-async def get_email():
-    ytt_api = YouTubeTranscriptApi()
-    result = ytt_api.fetch("AxQ7dMbEgmw")
-
-    for snippet in result:
-        text = snippet.text
-        print(text)
-
-    return JSONResponse
+def catch_all():
+    return {"message": "API is running"}
